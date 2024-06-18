@@ -8,9 +8,10 @@ class ProductsController < ApplicationController
     response = Net::HTTP.get(uri)
     @recommendations = JSON.parse(response)
 
-    @data = { products: @products, recommendations: @recommendations }
-
-    render json: @data
+    respond_to do |format|
+      format.html  # index.html.erbを表示
+      format.json { render json: { products: @products, recommendations: @recommendations } }
+    end
   end
 
   def show
