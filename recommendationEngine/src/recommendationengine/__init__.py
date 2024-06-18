@@ -1,6 +1,6 @@
-import hello
+import app
 
-def main() -> int:
-    h=hello.Hello('Haruotsu')
-    print(h.say())
+def main():
+    h=app.App()
+    h.run()
     return 0
