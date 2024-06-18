@@ -8,6 +8,13 @@ class ProductsController < ApplicationController
     response = Net::HTTP.get(uri)
     @recommendations = JSON.parse(response)
 
-    render json: { products: @products, recommendations: @recommendations }
+    @data = { products: @products, recommendations: @recommendations }
+
+    render json: @data
+  end
+
+  def show
+    @product = Product.find(params[:id])
+    render json: @product
   end
 end

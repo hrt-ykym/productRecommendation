@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product Recommendations</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>Products</h1>
+    <ul id="product-list"></ul>
+    <h1>Recommendations</h1>
+    <ul id="recommendation-list"></ul>
+    <script>
+      $(document).ready(function() {
+        $.ajax({
+          url: '/products.json',
+          method: 'GET',
+          success: function(data) {
+            const products = data.products;
+            const recommendations = data.recommendations;
+
+            // 商品リストの描画
+            products.forEach(function(product) {
+              $('#product-list').append(`<li>${product.name} - ${product.description} - $${product.price}</li>`);
+            });
+
+            // 推薦商品の描画
+            recommendations.forEach(function(product) {
+              $('#recommendation-list').append(`<li>${product.name} - ${product.description} - $${product.price}</li>`);
+            });
+          },
+          error: function(error) {
+            console.log('Error fetching data', error);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
