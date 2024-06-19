@@ -13,9 +13,11 @@ services:
   recommendationengine:
     build:
       context: ./recommendationEngine
-    command: rye run recommendationengine
+    # command: rye run recommendationengine
+    command: bash
     volumes:
       - ./recommendationEngine:/app
+      - venv:/workspace/.venv:rw
     ports:
       - "5000:5000"
 
@@ -30,3 +32,4 @@ services:
 
 volumes:
   pgdata:
+  venv: 
