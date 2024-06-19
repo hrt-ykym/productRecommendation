@@ -1,0 +1,32 @@
+services:
+  web:
+    build:
+      context: ./productRecommendation-system
+    command: bin/rails server -b 0.0.0.0
+    volumes:
+      - ./productRecommendation-system:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  recommendationengine:
+    build:
+      context: ./recommendationEngine
+    command: rye run recommendationengine
+    volumes:
+      - ./recommendationEngine:/app
+    ports:
+      - "5000:5000"
+
+  db:
+    image: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+
+volumes:
+  pgdata:
