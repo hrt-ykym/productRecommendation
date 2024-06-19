@@ -15,19 +15,20 @@ ENV PYTHONPATH="/workspace/src:$PYTHONPATH"
 # 開発環境と本番環境はそれぞれ同一のディレクトリにする必要があります。
 WORKDIR /workspace
 
-RUN \
-    --mount=type=cache,target=/var/lib/apt/lists \
-    --mount=type=cache,target=/var/cache/apt/archives \
-    apt-get update \
-    && apt-get install -y --no-install-recommends build-essential
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV RYE_HOME="/opt/rye"
 ENV PATH="$RYE_HOME/shims:$PATH"
 
 # RYE_INSTALL_OPTIONはビルドに必要です。
 # 参照: https://github.com/mitsuhiko/rye/issues/246
-RUN curl -sSf https://sh.rustup.rs -o rye-install.sh \
-    && bash rye-install.sh -y
+# RUN curl -sSf https://sh.rustup.rs -o rye-install.sh \
+#     && bash rye-install.sh -y
+
+RUN curl -sSf https://rye.astral.sh/get |  RYE_INSTALL_OPTION="--yes" bash
 
 # Dockerのキャッシュを利用するために、依存関係のダウンロードを別のステップとして行います。
 # バインドマウントを利用して一部のファイルをこのレイヤーにコピーすることを避けます。
