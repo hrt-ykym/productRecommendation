@@ -1,5 +1,6 @@
 services:
   web:
+    network_mode: "host" # これを書かないと、コンテナごとにnamespaceをつくるようになる
     build:
       context: ./productRecommendation-system
     command: /bin/bash -c "rm -rf /app/tmp/pids/server.pid && bin/rails server -b 0.0.0.0"
@@ -11,6 +12,7 @@ services:
       - db
 
   recommendationengine:
+    network_mode: "host"
     build:
       context: ./recommendationEngine
     # command: rye run recommendationengine
