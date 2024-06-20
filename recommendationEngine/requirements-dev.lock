@@ -11,10 +11,16 @@
 -e file:.
 blinker==1.8.2
     # via flask
+certifi==2024.6.2
+    # via requests
+charset-normalizer==3.3.2
+    # via requests
 click==8.1.7
     # via flask
 flask==3.0.3
     # via recommendationengine
+idna==3.7
+    # via requests
 itsdangerous==2.2.0
     # via flask
 jinja2==3.1.4
@@ -22,5 +28,9 @@ jinja2==3.1.4
 markupsafe==2.1.5
     # via jinja2
     # via werkzeug
+requests==2.32.3
+    # via recommendationengine
+urllib3==2.2.2
+    # via requests
 werkzeug==3.0.3
     # via flask
