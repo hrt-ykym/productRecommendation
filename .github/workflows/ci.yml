@@ -31,6 +31,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd productRecommendation-system
           gem install bundler -v 2.5.6
           bundle install
 
@@ -40,20 +41,27 @@ jobs:
           node-version: "14"
 
       - name: Install Node.js dependencies
-        run: npm install
+        run: |
+          cd productRecommendation-system
+          npm install
 
       - name: Prepare database
         run: |
+          cd productRecommendation-system
           bin/rails db:create
           bin/rails db:migrate
         env:
           DATABASE_URL: postgres://postgres:password@localhost:5432/mydatabase
 
       - name: Run RSpec tests
-        run: bundle exec rspec
+        run: |
+          cd productRecommendation-system
+          bundle exec rspec
 
       - name: Run RuboCop for static analysis
-        run: bundle exec rubocop
+        run: |
+          cd productRecommendation-system
+          bundle exec rubocop
 
   recommendationengine:
     runs-on: ubuntu-latest
@@ -73,4 +81,6 @@ jobs:
           rye sync --no-lock
 
       - name: Run tests
-        run: rye run pytest
+        run: |
+          cd recommendationEngine  # Add this line to navigate to the correct directory
+          rye run pytest
