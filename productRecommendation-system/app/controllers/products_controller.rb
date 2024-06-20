@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   def index
     @products = Product.all
 
-    uri = URI('http://recommendationEngine:5000/recommendations')
+    uri = URI('http://localhost:5000/recommendations')
     response = Net::HTTP.get(uri)
     @recommendations = JSON.parse(response)
 
