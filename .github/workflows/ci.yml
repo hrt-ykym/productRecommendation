@@ -15,19 +15,32 @@ jobs:
         with:
           ruby-version: 3.2.3
 
-      - name: Install system dependencies
-        run: sudo apt-get update
+      - name: Cache Ruby gems
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
 
       - name: Install Ruby dependencies
         run: |
           cd productRecommendation-system
           gem install bundler -v 2.5.6
-          bundle install
+          bundle install --path vendor/bundle
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "14"
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install Node.js dependencies
         run: |
