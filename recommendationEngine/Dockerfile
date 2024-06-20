@@ -70,19 +70,13 @@ RUN adduser \
 
 COPY . .
 
-# 仮想環境ディレクトリの権限を変更
-RUN chown -R appuser:appuser /workspace/
-RUN mkdir -p /nonexistent
-RUN chown -R appuser:appuser /nonexistent/
-
+# 仮想環境ディレクトリと必要なディレクトリの作成と権限を変更
+RUN mkdir -p /workspace /nonexistent /workspace/.venv && \
+    chown -R appuser:appuser /workspace /nonexistent /workspace/.venv
 
 # アプリケーションを実行するために非特権ユーザーに切り替えます。
 USER appuser
 
-# 仮想環境ディレクトリの権限を変更
-RUN mkdir -p /workspace/.venv && chown -R appuser:appuser /workspace/.venv
-
-RUN chown -R appuser:appuser /nonexistent/
 
 
 
