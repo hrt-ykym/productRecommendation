@@ -68,12 +68,23 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
+COPY . .
+
 # 仮想環境ディレクトリの権限を変更
-RUN mkdir -p /workspace/.venv && chown -R appuser:appuser /workspace/.venv
+RUN chown -R appuser:appuser /workspace/
+RUN mkdir -p /nonexistent
+RUN chown -R appuser:appuser /nonexistent/
+
 
 # アプリケーションを実行するために非特権ユーザーに切り替えます。
 USER appuser
 
-COPY . .
+# 仮想環境ディレクトリの権限を変更
+RUN mkdir -p /workspace/.venv && chown -R appuser:appuser /workspace/.venv
 
-ENTRYPOINT ["rye", "run", "recommendationengine"]
+RUN chown -R appuser:appuser /nonexistent/
+
+
+
+
+CMD ["rye", "run", "recommendationengine"]
