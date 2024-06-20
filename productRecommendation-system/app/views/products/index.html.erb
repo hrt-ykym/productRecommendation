@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product Recommendations</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+        padding: 20px;
+      }
+      .product, .recommendation {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px 0;
+      }
+      .product h3, .recommendation h3 {
+        margin: 0;
+      }
+      .product p, .recommendation p {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mb-4">Products</h1>
+      <div id="product-list" class="row">
+        <% @products.each do |product| %>
+          <div class="col-md-4">
+            <div class="product">
+              <h3><%= product.name %></h3>
+              <p><%= product.description %></p>
+              <p><strong>Price:</strong> $<%= product.price %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <h1 class="mt-5 mb-4">Recommendations</h1>
+      <div id="recommendation-list" class="row">
+        <% @recommendations.each do |product| %>
+          <div class="col-md-4">
+            <div class="recommendation">
+              <h3><%= product['name'] %></h3>
+              <p><%= product['description'] %></p>
+              <p><strong>Price:</strong> $<%= product['price'] %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function() {
+        $.ajax({
+          url: '/products.json',
+          method: 'GET',
+          success: function(data) {
+            const products = data.products;
+            const recommendations = data.recommendations;
+
+            // 商品リストの描画
+            products.forEach(function(product) {
+              $('#product-list').append(`
+                <div class="col-md-4">
+                  <div class="product">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p><strong>Price:</strong> $${product.price}</p>
+                  </div>
+                </div>
+              `);
+            });
+
+            // 推薦商品の描画
+            recommendations.forEach(function(product) {
+              $('#recommendation-list').append(`
+                <div class="col-md-4">
+                  <div class="recommendation">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p><strong>Price:</strong> $${product.price}</p>
+                  </div>
+                </div>
+              `);
+            });
+          },
+          error: function(error) {
+            console.log('Error fetching data', error);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

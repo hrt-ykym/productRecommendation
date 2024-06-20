@@ -1,0 +1,33 @@
+services:
+  web:
+    network_mode: "host" # これを書かないと、コンテナごとにnamespaceをつくるようになる
+    build:
+      context: ./productRecommendation-system
+    command: /bin/bash -c "rm -rf /app/tmp/pids/server.pid && bin/rails server -b 0.0.0.0"
+    volumes:
+      - ./productRecommendation-system:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  recommendationengine:
+    network_mode: "host"
+    build:
+      context: ./recommendationEngine
+    volumes:
+      - ./recommendationEngine:/app
+    ports:
+      - "5000:5000"
+
+  db:
+    image: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+
+volumes:
+  pgdata:
