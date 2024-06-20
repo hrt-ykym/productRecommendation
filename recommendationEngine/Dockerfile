@@ -68,6 +68,9 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
+# 仮想環境ディレクトリの権限を変更
+RUN mkdir -p /workspace/.venv && chown -R appuser:appuser /workspace/.venv
+
 # アプリケーションを実行するために非特権ユーザーに切り替えます。
 USER appuser
 
