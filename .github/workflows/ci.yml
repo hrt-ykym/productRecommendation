@@ -1,0 +1,76 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: mydatabase
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.3
+
+      - name: Install dependencies
+        run: |
+          gem install bundler -v 2.5.6
+          bundle install
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14"
+
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Prepare database
+        run: |
+          bin/rails db:create
+          bin/rails db:migrate
+        env:
+          DATABASE_URL: postgres://postgres:password@localhost:5432/mydatabase
+
+      - name: Run RSpec tests
+        run: bundle exec rspec
+
+      - name: Run RuboCop for static analysis
+        run: bundle exec rubocop
+
+  recommendationengine:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install Rye
+        run: |
+          curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes" bash
+          rye sync --no-lock
+
+      - name: Run tests
+        run: rye run pytest
