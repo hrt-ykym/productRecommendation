@@ -8,8 +8,6 @@ services:
       - ./productRecommendation-system:/app
     ports:
       - "3000:3000"
-    depends_on:
-      - db
 
   recommendationengine:
     network_mode: "host"
@@ -19,15 +17,6 @@ services:
       - ./recommendationEngine:/app
     ports:
       - "5000:5000"
-
-  db:
-    image: postgres
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
 
 volumes:
   pgdata:
