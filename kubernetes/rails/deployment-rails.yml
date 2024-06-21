@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rails-app
+  namespace: haruotsu
+  labels:
+    app: rails-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rails-app
+  template:
+    metadata:
+      labels:
+        app: rails-app
+    spec:
+      containers:
+        - name: rails-app
+          image: nginx:latest
+          ports:
+            - containerPort: 80
