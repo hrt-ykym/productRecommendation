@@ -8,7 +8,11 @@ class App:
 
         @self.app.route('/recommendations', methods=['GET'])
         def get_recommendations():
-            response = requests.get('http://localhost:3000/products/api')
+            try:
+                response = requests.get('http://localhost:8888/products/api')
+                print(response.json())
+            except requests.exceptions.RequestException as e:
+                print(f"Request failed: {e}")
             products = response.json()
             recommended_products = random.sample(products, min(3, len(products)))
             return jsonify(recommended_products)
