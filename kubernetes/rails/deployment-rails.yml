@@ -17,6 +17,8 @@ spec:
     spec:
       containers:
         - name: rails-app
-          image: nginx:latest
+          image: 905418468932.dkr.ecr.us-east-1.amazonaws.com/haruotsu-rails-images:latest
           ports:
-            - containerPort: 80
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: ecr-secret
