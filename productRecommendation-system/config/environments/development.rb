@@ -64,5 +64,5 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
   # 
   # ホスト承認の設定を更新
-  config.hosts << 'recommendationengine'
+  config.hosts << 'rails-service.haruotsu.svc.cluster.local'
 end
