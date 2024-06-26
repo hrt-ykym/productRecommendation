@@ -8,11 +8,7 @@ class App:
 
         @self.app.route('/recommendations', methods=['GET'])
         def get_recommendations():
-            try:
-                response = requests.get('http://localhost:8888/products/api')
-                print(response.json())
-            except requests.exceptions.RequestException as e:
-                print(f"Request failed: {e}")
+            response = requests.get('http://rails-service.haruotsu.svc.cluster.local:80/products/api')
             products = response.json()
             recommended_products = random.sample(products, min(3, len(products)))
             return jsonify(recommended_products)
