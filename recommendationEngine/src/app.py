@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 import requests
 import random
+import os
 
 class App:
     def __init__(self):
@@ -8,7 +9,8 @@ class App:
 
         @self.app.route('/recommendations', methods=['GET'])
         def get_recommendations():
-            response = requests.get('http://rails-service.haruotsu.svc.cluster.local:80/products/api')
+            rails_service_url = os.getenv('RAILS_SERVICE_URL', 'http://localhost:3000')
+            response = requests.get(f'{rails_service_url}/products/api')
             products = response.json()
             recommended_products = random.sample(products, min(3, len(products)))
             return jsonify(recommended_products)

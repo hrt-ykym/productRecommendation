@@ -64,5 +64,12 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
   # 
   # ホスト承認の設定を更新
-  config.hosts << 'rails-service.haruotsu.svc.cluster.local'
+  allowed_hosts = ENV['ALLOWED_HOSTS']
+  if allowed_hosts
+    allowed_hosts.split(',').each do |host|
+      config.hosts << host.strip
+    end
+  else
+    config.hosts << 'localhost'
+  end
 end
