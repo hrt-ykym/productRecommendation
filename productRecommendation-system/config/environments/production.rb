@@ -84,5 +84,13 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.hosts << "web"
+  # ホスト承認の設定を更新
+  allowed_hosts = ENV['ALLOWED_HOSTS']
+  if allowed_hosts
+    allowed_hosts.split(',').each do |host|
+      config.hosts << host.strip
+    end
+  else
+    config.hosts << 'localhost'
+  end
 end
