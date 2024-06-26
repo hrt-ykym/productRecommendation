@@ -1,6 +1,5 @@
 services:
   web:
-    # network_mode: "host" # これを書かないと、コンテナごとにnamespaceをつくるようになる
     build:
       context: ./productRecommendation-system
     command: /bin/bash -c "rm -rf /app/tmp/pids/server.pid && bin/rails server -b 0.0.0.0"
@@ -8,15 +7,19 @@ services:
       - ./productRecommendation-system:/app
     ports:
       - "3000:3000"
+    environment:
+      - FLASK_SERVICE_URL=http://recommendationengine:5000
+      - ALLOWED_HOSTS=web,localhost
 
   recommendationengine:
-    # network_mode: "host"
     build:
       context: ./recommendationEngine
     volumes:
       - ./recommendationEngine:/app
     ports:
       - "5000:5000"
+    environment:
+      RAILS_SERVICE_URL: 'http://web:3000'
 
 volumes:
   pgdata:

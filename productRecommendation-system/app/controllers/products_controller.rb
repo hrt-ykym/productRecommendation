@@ -1,7 +1,8 @@
 class ProductsController < ApplicationController
   def index
     @products = Product.all
-    uri = URI('http://flask-service.haruotsu.svc.cluster.local:80/recommendations')
+    flask_service_url = ENV['FLASK_SERVICE_URL'] || 'http://recommendationengine:5000'
+    uri = URI("#{flask_service_url}/recommendations")
     response = Net::HTTP.get(uri)
     @recommendations = JSON.parse(response)
 

@@ -20,5 +20,10 @@ spec:
           image: 905418468932.dkr.ecr.us-east-1.amazonaws.com/haruotsu-rails-images:latest
           ports:
             - containerPort: 3000
+          env:
+            - name: FLASK_SERVICE_URL
+              value: "http://flask-service.haruotsu.svc.cluster.local:80"
+            - name: ALLOWED_HOSTS
+              value: "rails-service,web"
       imagePullSecrets:
         - name: ecr-secret
