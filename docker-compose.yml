@@ -1,6 +1,6 @@
 services:
   web:
-    network_mode: "host" # これを書かないと、コンテナごとにnamespaceをつくるようになる
+    # network_mode: "host" # これを書かないと、コンテナごとにnamespaceをつくるようになる
     build:
       context: ./productRecommendation-system
     command: /bin/bash -c "rm -rf /app/tmp/pids/server.pid && bin/rails server -b 0.0.0.0"
@@ -10,7 +10,7 @@ services:
       - "3000:3000"
 
   recommendationengine:
-    network_mode: "host"
+    # network_mode: "host"
     build:
       context: ./recommendationEngine
     volumes:
