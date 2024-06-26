@@ -9,7 +9,7 @@ services:
       - "3000:3000"
     environment:
       - FLASK_SERVICE_URL=http://recommendationengine:5000
-      - ALLOWED_HOSTS=web,localhost
+      - ALLOWED_HOSTS=rails-service.haruotsu.svc.cluster.local,web,localhost
 
   recommendationengine:
     build:

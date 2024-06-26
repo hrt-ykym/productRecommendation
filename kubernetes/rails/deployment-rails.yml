@@ -24,6 +24,6 @@ spec:
             - name: FLASK_SERVICE_URL
               value: "http://flask-service.haruotsu.svc.cluster.local:80"
             - name: ALLOWED_HOSTS
-              value: "rails-service,web"
+              value: "rails-service.haruotsu.svc.cluster.local,web,localhost"
       imagePullSecrets:
         - name: ecr-secret
