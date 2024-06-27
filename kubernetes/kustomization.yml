@@ -2,5 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - flask
-  - rails
+  - flask/flask-application.yml
+  - rails/rails-application.yml
