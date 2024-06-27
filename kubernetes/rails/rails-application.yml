@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: rails-app
-  namespace: argocd
+  namespace: haruotsu
 spec:
   project: default
   source:

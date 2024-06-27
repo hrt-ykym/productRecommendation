@@ -1,22 +1,22 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: haruotsu-app
-  namespace: argocd
-spec:
-  project: default
-  source:
-    repoURL: "https://github.com/hrt-ykym/productRecommendation.git"
-    targetRevision: HEAD
-    path: "kubernetes"
-    # manifest群を一つのmanifestにまとめてくれる
-    kustomize:
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: haruotsu
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: haruotsu-app
+#   namespace: haruotsu
+# spec:
+#   project: default
+#   source:
+#     repoURL: "https://github.com/hrt-ykym/productRecommendation.git"
+#     targetRevision: HEAD
+#     path: "kubernetes"
+#     # manifest群を一つのmanifestにまとめてくれる
+#     kustomize:
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: haruotsu
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true

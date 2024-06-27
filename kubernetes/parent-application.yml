@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: parent-app
-  namespace: argocd
+  namespace: haruotsu
 spec:
   project: default
   source:
@@ -11,7 +11,7 @@ spec:
     path: "kubernetes"
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: argocd
+    namespace: haruotsu
   syncPolicy:
     automated:
       prune: true
