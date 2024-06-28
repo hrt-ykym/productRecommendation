@@ -6,7 +6,7 @@ metadata:
   labels:
     app: rails-app
 spec:
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
       app: rails-app
