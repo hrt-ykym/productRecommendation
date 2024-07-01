@@ -25,5 +25,7 @@ spec:
               value: "http://flask-service.haruotsu.svc.cluster.local:80"
             - name: ALLOWED_HOSTS
               value: "rails-service.haruotsu.svc.cluster.local,web,localhost"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://tempo.observability.svc.cluster.local:4317"
       imagePullSecrets:
         - name: ecr-secret
