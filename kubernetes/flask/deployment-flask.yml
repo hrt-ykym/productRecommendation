@@ -23,5 +23,7 @@ spec:
           env:
             - name: RAILS_SERVICE_URL
               value: "http://rails-service.haruotsu.svc.cluster.local:80"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://tempo.observability.svc.cluster.local:4317"
       imagePullSecrets:
         - name: ecr-secret

@@ -17,10 +17,22 @@ charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via flask
+deprecated==1.2.14
+    # via opentelemetry-api
+    # via opentelemetry-exporter-otlp-proto-grpc
+    # via opentelemetry-exporter-otlp-proto-http
 flask==3.0.3
     # via recommendationengine
+googleapis-common-protos==1.63.2
+    # via opentelemetry-exporter-otlp-proto-grpc
+    # via opentelemetry-exporter-otlp-proto-http
+grpcio==1.64.1
+    # via opentelemetry-exporter-otlp-proto-grpc
 idna==3.7
     # via requests
+importlib-metadata==7.1.0
+    # via opentelemetry-api
+    # via opentelemetry-instrumentation-flask
 iniconfig==2.0.0
     # via pytest
 itsdangerous==2.2.0
@@ -30,15 +42,69 @@ jinja2==3.1.4
 markupsafe==2.1.5
     # via jinja2
     # via werkzeug
+opentelemetry-api==1.25.0
+    # via opentelemetry-exporter-otlp-proto-grpc
+    # via opentelemetry-exporter-otlp-proto-http
+    # via opentelemetry-instrumentation
+    # via opentelemetry-instrumentation-flask
+    # via opentelemetry-instrumentation-wsgi
+    # via opentelemetry-sdk
+    # via opentelemetry-semantic-conventions
+    # via recommendationengine
+opentelemetry-exporter-otlp==1.25.0
+    # via recommendationengine
+opentelemetry-exporter-otlp-proto-common==1.25.0
+    # via opentelemetry-exporter-otlp-proto-grpc
+    # via opentelemetry-exporter-otlp-proto-http
+opentelemetry-exporter-otlp-proto-grpc==1.25.0
+    # via opentelemetry-exporter-otlp
+opentelemetry-exporter-otlp-proto-http==1.25.0
+    # via opentelemetry-exporter-otlp
+opentelemetry-instrumentation==0.46b0
+    # via opentelemetry-instrumentation-flask
+    # via opentelemetry-instrumentation-wsgi
+opentelemetry-instrumentation-flask==0.46b0
+    # via recommendationengine
+opentelemetry-instrumentation-wsgi==0.46b0
+    # via opentelemetry-instrumentation-flask
+opentelemetry-proto==1.25.0
+    # via opentelemetry-exporter-otlp-proto-common
+    # via opentelemetry-exporter-otlp-proto-grpc
+    # via opentelemetry-exporter-otlp-proto-http
+opentelemetry-sdk==1.25.0
+    # via opentelemetry-exporter-otlp-proto-grpc
+    # via opentelemetry-exporter-otlp-proto-http
+    # via recommendationengine
+opentelemetry-semantic-conventions==0.46b0
+    # via opentelemetry-instrumentation-flask
+    # via opentelemetry-instrumentation-wsgi
+    # via opentelemetry-sdk
+opentelemetry-util-http==0.46b0
+    # via opentelemetry-instrumentation-flask
+    # via opentelemetry-instrumentation-wsgi
 packaging==24.1
+    # via opentelemetry-instrumentation-flask
     # via pytest
 pluggy==1.5.0
     # via pytest
+protobuf==4.25.3
+    # via googleapis-common-protos
+    # via opentelemetry-proto
 pytest==8.2.2
     # via recommendationengine
 requests==2.32.3
+    # via opentelemetry-exporter-otlp-proto-http
     # via recommendationengine
+setuptools==70.1.1
+    # via opentelemetry-instrumentation
+typing-extensions==4.12.2
+    # via opentelemetry-sdk
 urllib3==2.2.2
     # via requests
 werkzeug==3.0.3
     # via flask
+wrapt==1.16.0
+    # via deprecated
+    # via opentelemetry-instrumentation
+zipp==3.19.2
+    # via importlib-metadata
