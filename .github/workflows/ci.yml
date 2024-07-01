@@ -7,14 +7,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # コードをリポジトリからチェックアウトします。
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Rubyをセットアップします。
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2.3
 
+      # Rubyの依存関係をキャッシュ
       - name: Cache Ruby gems
         uses: actions/cache@v3
         with:
@@ -23,17 +26,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
 
+      # Rubyの依存関係をインストール
       - name: Install Ruby dependencies
         run: |
           cd productRecommendation-system
           gem install bundler -v 2.5.6
           bundle install --path vendor/bundle
 
+      # Node.jsをセットアップ
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "14"
 
+      # Node.jsの依存関係をキャッシュ
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
@@ -42,17 +48,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      # Node.jsの依存関係をインストール
       - name: Install Node.js dependencies
         run: |
           cd productRecommendation-system
           npm install
 
+      # データベースの作成とマイグレーション
       - name: Prepare database
         run: |
           cd productRecommendation-system
           bin/rails db:create db:migrate
 
+      # テストの実行
       - name: Run tests
+        env:
+          FLASK_SERVICE_URL: "http://localhost:5000"
         run: |
           cd productRecommendation-system
           bundle exec rspec
