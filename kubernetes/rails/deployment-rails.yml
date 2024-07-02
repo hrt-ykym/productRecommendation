@@ -18,6 +18,7 @@ spec:
       containers:
         - name: rails-app
           image: 905418468932.dkr.ecr.us-east-1.amazonaws.com/haruotsu-rails-images:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
@@ -25,5 +26,9 @@ spec:
               value: "http://flask-service.haruotsu.svc.cluster.local:80"
             - name: ALLOWED_HOSTS
               value: "rails-service.haruotsu.svc.cluster.local,web,localhost"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://otel-collector-opentelemetry-collector.monitoring.svc.cluster.local:4318"
+            - name: OTEL_SERVICE_NAME
+              value: "rails-app"
       imagePullSecrets:
         - name: ecr-secret
