@@ -18,12 +18,13 @@ spec:
       containers:
         - name: flask-app
           image: 905418468932.dkr.ecr.us-east-1.amazonaws.com/haruotsu-flask-images:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
           env:
             - name: RAILS_SERVICE_URL
               value: "http://rails-service.haruotsu.svc.cluster.local:80"
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
-              value: "http://tempo.observability.svc.cluster.local:4317"
+              value: "http://otel-collector-opentelemetry-collector.monitoring.svc.cluster.local:4318"
       imagePullSecrets:
         - name: ecr-secret

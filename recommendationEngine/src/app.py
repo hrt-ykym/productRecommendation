@@ -1,24 +1,13 @@
+# app.py
 from flask import Flask, jsonify
 import requests
 import random
 from opentelemetry import trace
-from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
-
-# トレーサーの設定
-resource = Resource(attributes={
-    "service.name": "flask-service"
-})
-
-trace.set_tracer_provider(TracerProvider(resource=resource))
-tracer = trace.get_tracer(__name__)
-
-otlp_exporter = OTLPSpanExporter(endpoint="http://tempo.observability.svc.cluster.local:4317", insecure=True)
-span_processor = BatchSpanProcessor(otlp_exporter)
-trace.get_tracer_provider().add_span_processor(span_processor)
 
 class App:
     def __init__(self):
@@ -34,3 +23,16 @@ class App:
 
     def run(self):
         self.app.run(host='0.0.0.0', port=5000)
+
+# OpenTelemetry configuration
+resource = Resource(attributes={"service.name": "flask-app"})
+trace.set_tracer_provider(TracerProvider(resource=resource))
+tracer = trace.get_tracer(__name__)
+
+otlp_exporter = OTLPSpanExporter(endpoint="otel-collector-opentelemetry-collector.monitoring.svc.cluster.local:4318", insecure=True)
+span_processor = BatchSpanProcessor(otlp_exporter)
+trace.get_tracer_provider().add_span_processor(span_processor)
+
+if __name__ == '__main__':
+    app_instance = App()
+    app_instance.run()
