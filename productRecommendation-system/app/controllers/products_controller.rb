@@ -1,10 +1,19 @@
 class ProductsController < ApplicationController
+  require 'net/http'
+  require 'uri'
+  require 'json'
+
   def index
     @products = Product.all
     flask_service_url = ENV['FLASK_SERVICE_URL'] || 'http://recommendationengine:5000'
     uri = URI("#{flask_service_url}/recommendations")
-    response = Net::HTTP.get(uri)
-    @recommendations = JSON.parse(response)
+    begin
+      response = fetch_recommendations(uri)
+      @recommendations = JSON.parse(response)
+    rescue => e
+      Rails.logger.error("Error fetching recommendations: #{e.message}")
+      @recommendations = [{'name' => 'Recommendation error', 'description' => 'Unable to fetch recommendations at this time.', 'price' => 'N/A'}]
+    end
 
     respond_to do |format|
       format.html  # index.html.erbを表示
@@ -39,5 +48,15 @@ class ProductsController < ApplicationController
 
   def product_params
     params.require(:product).permit(:name, :description, :price)
+  end
+
+  def fetch_recommendations(uri)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.open_timeout = 5
+    http.read_timeout = 5
+
+    request = Net::HTTP::Get.new(uri.request_uri)
+    response = http.request(request)
+    response.body
   end
 end

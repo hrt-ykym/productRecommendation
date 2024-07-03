@@ -22,6 +22,7 @@ deprecated==1.2.14
     # via opentelemetry-exporter-otlp-proto-grpc
     # via opentelemetry-exporter-otlp-proto-http
 flask==3.0.3
+    # via prometheus-flask-exporter
     # via recommendationengine
 googleapis-common-protos==1.63.2
     # via opentelemetry-exporter-otlp-proto-grpc
@@ -98,6 +99,11 @@ packaging==24.1
     # via pytest
 pluggy==1.5.0
     # via pytest
+prometheus-client==0.20.0
+    # via prometheus-flask-exporter
+    # via recommendationengine
+prometheus-flask-exporter==0.23.0
+    # via recommendationengine
 protobuf==4.25.3
     # via googleapis-common-protos
     # via opentelemetry-proto
